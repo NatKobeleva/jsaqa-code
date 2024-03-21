@@ -1,13 +1,16 @@
 let page;
 
+beforeEach(async () => {
+  page = await browser.newPage();
+});
+
+afterEach(() => {
+  page.close();
+});
+
 describe("Github page tests", () => {
   beforeEach(async () => {
-    page = await browser.newPage();
     await page.goto("https://github.com/team");
-  });
-
-  afterEach(() => {
-    page.close();
   });
 
   test("The h1 header content'", async () => {
@@ -37,12 +40,7 @@ describe("Github page tests", () => {
 
 describe("Marketplace page tests", () => {
   beforeEach(async () => {
-    page = await browser.newPage();
     await page.goto("https://github.com/marketplace");
-  });
-
-  afterEach(() => {
-    page.close();
   });
 
   test("The title content", async () => {
@@ -61,16 +59,8 @@ describe("Marketplace page tests", () => {
   }, 3000);
 });
 
-beforeEach(async () => {
-  page = await browser.newPage();
+test("The title content on main page", async () => {
   await page.goto("https://github.com");
-});
-
-afterEach(() => {
-  page.close();
-});
-
-test("The title content", async () => {
   await page.waitForSelector("h1");
   const title = await page.title();
   expect(title).toEqual("GitHub: Let’s build from here · GitHub");
